@@ -1,13 +1,23 @@
 import express from "express"
-import knex from "knex"
-import knexfile from "../knexfile.js"
+import { getAllProducts } from "./database/products.js"
+import { router as ProductsRouter } from "./routes/products.js"
 
 export const app = express()
-const db = knex(knexfile)
 
 app.set("view engine", "ejs")
+app.use(express.urlencoded({extended: true})) 
 
 
 app.get("/", async (req, res) => {
-    res.render("index")
+
+    const products = await getAllProducts()
+
+
+    res.render("index", {
+        products: products,
+    })
 })
+
+app.use(ProductsRouter)
+
+
