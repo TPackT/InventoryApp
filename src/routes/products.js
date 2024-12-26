@@ -1,9 +1,18 @@
 import express from "express"
-import { addProduct, deleteProduct } from "../database/products.js"
+import { addProduct, deleteProduct, getAllProducts } from "../database/products.js"
 
 export const router = express.Router()
 
-router.post("/add-product", async (req, res) => {
+router.get("/products", async (req, res) => {
+    const products = await getAllProducts()
+
+    res.render("products", {
+        products: products,
+    })
+        
+})
+
+router.post("/products", async (req, res) => {
 
     //map product atributes
     const productEntry = {
@@ -27,7 +36,7 @@ router.post("/add-product", async (req, res) => {
 
 
 
-router.delete("/delete-product/:id", async (req, res) => {
+router.delete("/products/:id", async (req, res) => {
 
     const idToDelete = Number(req.params.id)
 
