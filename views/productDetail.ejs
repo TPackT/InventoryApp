@@ -1,0 +1,20 @@
+<%- include("_header") %>
+
+
+<form action="/products/<%= product.id %>?_method=PUT" method="POST">
+    <div class="list-item">
+    
+                <div class="item-attribute-id"><%= product.id %></div>
+                <div class="item-attribute"><input type="text" name="name" value="<%= product.name %>"></div>
+                <div class="item-attribute"><input type="text" name="price" value="<%= product.price %>"></div>
+                <div class="item-attribute"><input type="text" name="quantity" value="<%= product.quantity %>"></div>
+        
+                <button type="submit">Update</button>
+            </form>
+            <form action="/products/<%= product.id %>?_method=DELETE" method="POST">
+                <button type="submit">Delete</button>
+            </div>
+            </form>
+    
+
+<%- include("_footer") %>

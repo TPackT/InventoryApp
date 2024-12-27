@@ -1,15 +1,21 @@
 <ul style="list-style-type: none">
     <% for (const product of products) { %>
+        
         <li class="products-item">
-            <%= product.id %>
-            <%= product.name %>
-            <%= product.quantity %>
-            
-            <form action="/products/<%= product.id %>?_method=DELETE" method="POST">
-                <button type="submit">Delete</button>
-            </form>
-            
+            <div class="list-item">
+                <div class="item-attribute-id"><%= product.id %></div>
+                <div class="item-attribute" contenteditable="true"><%= product.name %></div>
+                <div class="item-attribute" contenteditable="true"><%= product.quantity %></div>
+                <div class="item-attribute" contenteditable="true"><%= product.price %></div>
+                <form action="/products/<%= product.id %>" method="GET">
+                    <button type="submit">Detail</button>
+                </form>
+                <form action="/products/<%= product.id %>?_method=DELETE" method="POST">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
         </li>
+    </div>
 
     <% } %>
 

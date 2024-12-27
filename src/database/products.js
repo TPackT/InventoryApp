@@ -4,7 +4,7 @@ import { db } from "../database.js"
 
 export const getProductById = async (productId) => {
 
-    const product = await db("products").where("id", productId)
+    const product = await db("products").where("id", productId).first()
 
     return product
     

@@ -1,0 +1,23 @@
+.list-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 45%;
+}
+
+.item-attribute {
+    flex-basis: 31%;
+    text-align: center;
+    border: 1px solid blue
+}
+
+.item-attribute-id {
+    flex-basis: 7%;
+    text-align: center;
+    border: 1px solid blue
+}
+
+input {
+    text-align: center;
+}
