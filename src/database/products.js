@@ -10,6 +10,16 @@ export const getProductById = async (productId) => {
     
 }
 
+export const getProductByBarcode = async (productBarcode) => {
+
+    const product = await db("products").where("barcode", productBarcode).first()
+
+    return product
+    
+}
+
+
+
 export const getAllProducts = async () => {
     const products = await db("products").select("*")
 
@@ -26,11 +36,12 @@ export const addProduct = async (productObject) => {
 }
 
 export const updateProduct = async (productId, newProductObject) => {
+
     const product = await db("products").where("id", productId).first()
 
     if(!product) {
         console.log("Product not found")
-        return res.redirect("/")
+        return res.redirect("/products")
     }
 
     await db("products").where("id", productId).update(newProductObject)
@@ -49,6 +60,5 @@ export const deleteProduct = async (productId) => {
     }
 
     await db("products").where("id", productId).delete()
-
 
 }

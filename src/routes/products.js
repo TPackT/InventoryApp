@@ -1,5 +1,6 @@
 import express from "express"
-import { addProduct, deleteProduct, getAllProducts, getProductById, updateProduct } from "../database/products.js"
+import { addProduct, deleteProduct, getAllProducts, getProductById, updateProduct, getProductByBarcode } from "../database/products.js"
+import axios from "axios"
 
 export const router = express.Router()
 
@@ -24,6 +25,11 @@ router.get("/products/:id", async (req, res) => {
         
 })
 
+router.get("/products/barcode/scan", async (req, res) => {
+
+    res.render("scanner")
+})
+
 router.post("/products", async (req, res) => {
 
 
@@ -37,6 +43,7 @@ router.post("/products", async (req, res) => {
         created_at: new Date(),
         updated_at: new Date()
     }
+
 
     //call db method
     const product = await addProduct(productEntry)
@@ -77,17 +84,60 @@ router.put("/products/:id", async (req, res) => {
         updated_at: new Date()
     }
 
-    console.log("ID: " + idToUpdate)
-    console.log("Body: " + JSON.stringify(productBody))
 
-    
+
 
     //call db method
     const product = await updateProduct(idToUpdate, productBody)
 
-
     res.redirect("/products")
 
-
-
 })
+
+router.get("/products/barcode/:barcode", async (req, res) => {
+
+    const barcodeToSearch = req.params.barcode
+   
+
+    try {
+        const product = await getProductByBarcode(barcodeToSearch)
+        
+        console.log("Searching for barcode: " + barcodeToSearch)
+        if (product) {
+            //return res.status(200).json(product)
+            return res.json(product)
+        } 
+        
+        console.log("Not found in db")
+
+
+        //if not found in db
+        const externalApiUrl = `https://world.openfoodfacts.org/api/v0/product/${barcodeToSearch}.json`
+        const response = await axios.get(externalApiUrl)
+
+        if (response.data && response.data.product) {
+            const externalProduct = response.data.product
+
+            const apiProduct = {
+                name: externalProduct.product_name || "Unknown Name",
+                barcode: barcodeToSearch,
+                size: externalProduct.quantity || "Unknown Size",
+                price: "",
+                quantity: 0,
+            }
+            console.log("Api product: " + JSON.stringify(apiProduct))
+
+            //return res.status(200).json(apiProduct)
+            return res.json(apiProduct)
+          
+        }
+    
+    } catch (e) {
+        console.error("Error fetching product by barcode: ", e.message)
+        res.status(500).json({ error: "Failed to fetch product by barcode" })
+    }
+
+        
+    }
+
+)

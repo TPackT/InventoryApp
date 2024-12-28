@@ -8,16 +8,30 @@
 
 .item-attribute {
     flex-basis: 31%;
+    flex: 1;
     text-align: center;
-    border: 1px solid blue
+    border: 0.5px solid black
 }
 
 .item-attribute-id {
     flex-basis: 7%;
     text-align: center;
-    border: 1px solid blue
+    /*border: 1px solid blue*/
+}
+
+.item-actions {
+    flex: 1.4; /* Double the size of .item-attribute */
+    text-align: center;
 }
 
 input {
     text-align: center;
+}
+
+#size, #price, #quantity {
+    width: 10%;
+}
+
+.list-header {
+    font-weight: 700;
 }
