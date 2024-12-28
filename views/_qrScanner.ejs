@@ -1,0 +1,59 @@
+
+
+    <!-- Barcode Scanner -->
+    <button id="start-scanner">Start Barcode Scanner</button>
+    <div id="reader" style="width: 300px; height: 300px; display: none;"></div>
+
+    
+
+    <script>
+        // Initialize Barcode Scanner
+    const startScannerButton = document.getElementById("start-scanner");
+    const reader = document.getElementById("reader");
+    const barcodeInput = document.getElementById("barcode");
+
+    startScannerButton.addEventListener("click", () => {
+        reader.style.display = "block";
+
+    const html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader",
+        { fps: 10, qrbox: { width: 250, height: 250 } },
+        false
+    );
+
+    html5QrcodeScanner.render(
+        (decodedText) => {
+            console.log(`Barcode detected: ${decodedText}`);
+            barcodeInput.value = decodedText;
+
+            // Stop the scanner after a successful scan
+            html5QrcodeScanner.clear();
+            reader.style.display = "none";
+        },
+        (error) => {
+            console.warn(`Scanning error: ${error}`);
+        }
+    );
+});
+
+        // Fetch Product Details
+        const fetchProductByBarcode = async (barcode) => {
+            try {
+                const response = await fetch(`/products/barcode/${barcode}`);
+                const product = await response.json();
+
+                if (response.ok) {
+                    // Populate input fields
+                    document.getElementById("name").value = product.name || "";
+                    document.getElementById("size").value = product.size || "";
+                    document.getElementById("price").value = product.price || "";
+                    document.getElementById("quantity").value = product.quantity || "";
+                } else {
+                    alert(product.error || "Product not found. Please enter details manually.");
+                }
+            } catch (error) {
+                console.error("Error fetching product by barcode:", error);
+                alert("Failed to fetch product details.");
+            }
+        };
+    </script>

@@ -1,0 +1,35 @@
+<ul style="list-style-type: none">
+
+    <li class="list-header">
+        <div class="list-item">
+            <div class="item-attribute-id">ID</div>
+            <div class="item-attribute">Name</div>
+            <div class="item-attribute">Size</div>
+            <div class="item-attribute">Price</div>
+            <div class="item-attribute">Quantity</div>
+            <div class="item-actions">Actions</div>
+        </div>
+    </li>
+    
+    <% for (const product of products) { %>
+        
+        <li class="products-item">
+            <div class="list-item">
+                <div class="item-attribute-id"><%= product.id %></div>
+                <div class="item-attribute"><%= product.name %></div>
+                <div class="item-attribute"><%= product.size %></div>
+                <div class="item-attribute"><%= product.price %></div>
+                <div class="item-attribute"><%= product.quantity %></div>
+                <form action="/products/<%= product.id %>" method="GET">
+                    <button type="submit">Detail</button>
+                </form>
+                <form action="/products/<%= product.id %>?_method=DELETE" method="POST">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+        </li>
+    </div>
+
+    <% } %>
+
+</ul>
