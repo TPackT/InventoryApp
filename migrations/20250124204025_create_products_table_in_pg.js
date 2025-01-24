@@ -12,8 +12,8 @@ export const up = async function(knex) {
       table.integer('price')
       table.integer('quantity')
       table.integer('category_id')
-      table.integer('created_at')
-      table.integer('updated_at')
+      table.timestamp('created_at')
+      table.timestamp('updated_at')
       
     })
   };
