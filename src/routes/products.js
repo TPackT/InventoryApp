@@ -122,7 +122,7 @@ router.get("/products/barcode/:barcode", async (req, res) => {
                 name: externalProduct.product_name || "Unknown Name",
                 barcode: barcodeToSearch,
                 size: externalProduct.quantity || "Unknown Size",
-                price: "",
+                price: 0,
                 quantity: 0,
             }
             console.log("Api product: " + JSON.stringify(apiProduct))
