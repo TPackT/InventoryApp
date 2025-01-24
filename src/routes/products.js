@@ -44,7 +44,7 @@ router.post("/products", async (req, res) => {
         updated_at: new Date()
     }
 
-
+    console.log("Product body for insert: " + JSON.stringify(productEntry))
     //call db method
     const product = await addProduct(productEntry)
 
