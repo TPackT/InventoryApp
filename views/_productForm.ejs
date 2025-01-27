@@ -38,7 +38,9 @@
         const response = await fetch(`/products/barcode/${barcode}`)
         console.log("Looking for barcode: " + JSON.stringify(barcode))
         if (!response.ok) {
-            throw new Error("Product not found")
+            console.log(response.json())
+            document.getElementById("fetchStatus").value = await response.json()
+
         }
 
 

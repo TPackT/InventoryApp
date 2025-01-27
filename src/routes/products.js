@@ -111,7 +111,9 @@ router.get("/products/barcode/:barcode", async (req, res) => {
         console.log("Not found in db")
 
 
+
         //if not found in db
+
         const externalApiUrl = `https://world.openfoodfacts.org/api/v0/product/${barcodeToSearch}.json`
         const response = await axios.get(externalApiUrl)
 
@@ -127,10 +129,19 @@ router.get("/products/barcode/:barcode", async (req, res) => {
             }
             console.log("Api product: " + JSON.stringify(apiProduct))
 
-            //return res.status(200).json(apiProduct)
-            return res.json(apiProduct)
+            return res.status(200).json(apiProduct)
+            //return res.json(apiProduct)
           
+        } else {
+
+            return res.status(404).json({
+                message: "Product not found in the API",
+                barcode: barcodeToSearch
+            }) 
         }
+
+
+        
     
     } catch (e) {
         console.error("Error fetching product by barcode: ", e.message)
