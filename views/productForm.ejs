@@ -1,34 +1,59 @@
+<%- include("_header") %>
+
 <form id="addProduct" action="/products" method="POST"></form>
 <form id="fetchBarcode" action="/products/barcode/:barcode" method="POST"></form>
 
 <div id="barcodeSection">
     <label for="barcode">Barcode:</label>
     
-    <input type="text" id="barcode" name="barcode" form="fetchBarcode" required>
+    <input type="text" id="barcode" name="barcode" form="fetchBarcode" form="addProduct" required>
     
     <!-- <button id="start-scanner" >Start Barcode Scanner</button> -->
     <button type="button" id="fetchButton" form="fetchBarcode">Fetch Product</button>
 </div>
 
+<div id="status-window"></div>
+
+<br>
+
+<%- include("_scanner") %>
+
 <br>
 <br>
 
 <div id="input-section">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" form="addProduct" required>
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" form="addProduct" required>
+    </div>
+    <div>
+        <label for="size">Size:</label>
+        <input type="text" id="size" name="size" form="addProduct">
+    </div>
+    <div>
+        <label for="price">Price:</label>
+        <input type="number" step="0.01" id="price" name="price" form="addProduct">
+    </div>
+    <div>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" form="addProduct">
+    </div>
+    
 
-    <label for="size">Size:</label>
-    <input type="text" id="size" name="size" form="addProduct">
-
-    <label for="price">Price:</label>
-    <input type="number" id="price" name="price" form="addProduct">
-
-    <label for="quantity">Quantity:</label>
-    <input type="number" id="quantity" name="quantity" form="addProduct" required>
-
+    
+    
     <button type="submit" form="addProduct">Add Product</button>
 </div>
 
+<br>
+<br>
+
+<form action="/products" method="GET">
+    <button type="submit">Back to list</button>
+</form>
+
+
+<%- include ("_scannerScript") %>
 <script>
     const fetchButton = document.getElementById("fetchButton")
     
@@ -38,7 +63,9 @@
         const response = await fetch(`/products/barcode/${barcode}`)
         console.log("Looking for barcode: " + JSON.stringify(barcode))
         if (!response.ok) {
-            throw new Error("Product not found")
+            console.log(response.json())
+            document.getElementById("fetchStatus").value = await response.json()
+
         }
 
 
@@ -51,7 +78,10 @@
         console.log("Product data fetched and prefilled")
 
        } catch (e) {
+        document.getElementById("status-window").innerText = "Product not found"
         console.error("Error fetching product", e)
        }
     })
 </script>
+
+<%- include("_footer") %>

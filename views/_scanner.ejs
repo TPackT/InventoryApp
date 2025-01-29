@@ -4,64 +4,7 @@
     <button id="start-scanner">Start Barcode Scanner</button> 
     <button id="stop-scanner" style="display: none;">Stop Scanner</button>
     <div id="reader" style="width: 400px; height: 300px; display: none;"></div>
-    <p>Detected Barcode: <span id="barcode"></span></p>
+
+    <button id="bulk-scanner">Bulk scan</button>  
+   
     
-
-    <script>
-        // Buttons and Elements
-        const startScannerButton = document.getElementById("start-scanner");
-        const stopScannerButton = document.getElementById("stop-scanner");
-        const reader = document.getElementById("reader");
-        const barcodeSpan = document.getElementById("barcode");
-        const barcodeInput = document.getElementById("barcode");
-
-        // Start Scanner
-        startScannerButton.addEventListener("click", () => {
-            reader.style.display = "block";
-            stopScannerButton.style.display = "inline";
-            startScannerButton.style.display = "none";
-
-            Quagga.init({
-                inputStream: {
-                    name: "Live",
-                    type: "LiveStream",
-                    target: reader, // The element where the camera feed appears
-                },
-                decoder: {
-                    readers: ["code_128_reader", "ean_reader", "upc_reader"], // Supported barcode types
-                },
-            }, (err) => {
-                if (err) {
-                    console.error("Error initializing Quagga:", err);
-                    return;
-                }
-                console.log("Quagga initialized successfully.");
-                Quagga.start();
-            });
-
-            // On barcode detected
-            Quagga.onDetected((result) => {
-                const code = result.codeResult.code;
-                console.log("Barcode detected:", code);
-
-                barcodeSpan.textContent = code;
-                barcodeInput.value = code;
-
-                // Stop scanning after detecting a barcode
-                Quagga.stop();
-                reader.style.display = "none";
-                stopScannerButton.style.display = "none";
-                startScannerButton.style.display = "inline";
-            });
-        });
-
-        // Stop Scanner
-        stopScannerButton.addEventListener("click", () => {
-            Quagga.stop();
-            reader.style.display = "none";
-            stopScannerButton.style.display = "none";
-            startScannerButton.style.display = "inline";
-        });
-
-
-    </script>

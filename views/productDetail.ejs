@@ -34,8 +34,13 @@
 <br>
 <br>
 
-<form action="/products/<%= product.id %>?_method=DELETE" method="POST">
-    <button type="submit">Delete</button>
-</form>
+<div id="detail-bottom-section">
+    <form action="/products" method="GET">
+        <button type="submit">Back to list</button>
+    </form>
 
+    <form action="/products/<%= product.id %>?_method=DELETE" method="POST">
+        <button id="delete-button" type="submit">Delete</button>
+    </form>
+</div>
 <%- include("_footer") %>

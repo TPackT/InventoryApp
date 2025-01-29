@@ -6,6 +6,7 @@ export const getProductById = async (productId) => {
 
     const product = await db("products").where("id", productId).first()
 
+
     return product
     
 }
@@ -22,7 +23,6 @@ export const getProductByBarcode = async (productBarcode) => {
 
 export const getAllProducts = async () => {
     const products = await db("products").select("*")
-
     return products
 }
 
