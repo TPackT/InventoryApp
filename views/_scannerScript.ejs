@@ -1,0 +1,114 @@
+<script>
+   const startScannerButton = document.getElementById("start-scanner");
+    const stopScannerButton = document.getElementById("stop-scanner");
+    const reader = document.getElementById("reader");
+    const barcodeSpan = document.getElementById("barcode");
+    const barcodeInput = document.getElementById("barcode");
+    const fetchStatus = document.getElementById("fetchStatus");
+
+    const formInputName = document.getElementById("name")
+    const formInputSize = document.getElementById("size")
+    const formInputPrice = document.getElementById("price")
+    const formInputQuantity = document.getElementById("quantity")
+
+    const fetchBarcode = async () => {
+        try {
+                const response = await fetch(`/products/barcode/${barcodeInput.value}`)
+                console.log("Looking for barcode: " + JSON.stringify(barcodeInput.value))
+                if (!response.ok) {
+                    fetchStatus.value = await response.json()
+
+                }
+
+
+                const product = await response.json()
+
+                console.log("Product info: " + JSON.stringify(product))
+
+                formInputName.value = product.name
+                formInputSize.value = product.size
+                formInputPrice.value = product.price
+                formInputQuantity.value = product.quantity
+                console.log("Product data fetched and prefilled")
+
+            } catch (e) {
+                console.log("Response: " + response)
+                document.getElementById("status-window").innerText = "Product not found"
+                console.error("Error fetching product", e)
+            }
+    }
+
+
+    // Start Scanner
+    startScannerButton.addEventListener("click", () => {
+        reader.style.display = "block";
+        stopScannerButton.style.display = "inline";
+        startScannerButton.style.display = "none";
+
+        Quagga.init({
+            inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: reader, // The element where the camera feed appears
+                
+                constraints: {
+                    //facingMode: "environment",
+                    width: 640,
+                    height: 480,
+                    focusMode: "continuous"
+                },
+                locate: false,
+                area: {
+                    top: "25%",
+                    left: "0%",
+                    right: "0%",
+                    bottom: "25%"
+                }
+            },
+            decoder: {
+                readers: ["code_128_reader", "ean_reader", "upc_reader"], // Supported barcode types
+            },
+        }, (err) => {
+            if (err) {
+                console.error("Error initializing Quagga:", err);
+                return;
+            }
+            console.log("Quagga initialized successfully.");
+            Quagga.start();
+        });
+
+
+
+
+        // On barcode detected
+        Quagga.onDetected((result) => {
+            const code = result.codeResult.code;
+            console.log("Barcode detected:", code);
+
+            barcodeSpan.textContent = code;
+            barcodeInput.value = code;
+
+            
+
+            // Stop scanning after detecting a barcode
+            Quagga.stop();
+            reader.style.display = "none";
+            stopScannerButton.style.display = "none";
+            startScannerButton.style.display = "inline";
+
+            fetchBarcode();
+            formInputPrice.focus()
+            
+        });
+    });
+
+    // Stop Scanner
+    stopScannerButton.addEventListener("click", () => {
+        Quagga.stop();
+        reader.style.display = "none";
+        stopScannerButton.style.display = "none";
+        startScannerButton.style.display = "inline";
+    });
+
+
+</script>

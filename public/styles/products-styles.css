@@ -44,3 +44,18 @@ th, td {
 .item-detail {
     width: 80%;
 }
+
+#status-window {
+    color: red;
+}
+
+#delete-button {
+    color:red;
+}
+
+#detail-bottom-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 99%;
+}

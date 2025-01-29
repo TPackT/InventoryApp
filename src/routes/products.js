@@ -13,6 +13,17 @@ router.get("/products", async (req, res) => {
         
 })
 
+router.get("/products/new", async (req, res) => {
+
+    //const products = JSON.parse(req.query.products)
+    const products = await getAllProducts()
+
+    console.log("List of " + products)
+    res.render("productForm", {
+        products: products
+    })
+})
+
 router.get("/products/:id", async (req, res) => {
 
     const idToGet = req.params.id
@@ -30,13 +41,16 @@ router.get("/products/barcode/scan", async (req, res) => {
     res.render("scanner")
 })
 
+
+
+
 router.post("/products", async (req, res) => {
 
 
     //map product atributes
     const productEntry = {
         name: req.body.name,
-        barcode: "0000000000000",
+        barcode: req.body.barcode || "0000000000000",
         size: req.body.size, 
         price: req.body.price, 
         quantity: req.body.quantity, 
