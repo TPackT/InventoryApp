@@ -13,8 +13,10 @@ router.get("/products", async (req, res) => {
 
     products = products.map(product => ({
         ...product,
-        size: product.size.replace(/(\d+)[.](\d+)/, '$1,$2') // Replace '.' with ','
-                         .replace(/(\d+[\.,]?\d*)([a-zA-Z]+)/, (match, num, unit) => `${num} ${unit.toLowerCase()}`)
+        size:   product.size ?
+                product.size.replace(/(\d+)[.](\d+)/, '$1,$2') // Replace '.' with ','
+                            .replace(/(\d+[\.,]?\d*)([a-zA-Z]+)/, (match, num, unit) => `${num} ${unit.toLowerCase()}`)
+                : ""
     }));
 
     res.render("products", {
