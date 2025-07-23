@@ -1,6 +1,12 @@
-<form action="/products/new" method="GET">
-    <button type="submit">Add new product</button>
-</form>
+<div class="products-action-buttons">
+    <form action="/products/new" method="GET">
+        <button type="submit">Add new product</button>
+    </form>
+
+    <form action="/products/export" method="GET">
+        <button type="submit">Export CSV</button>
+    </form>
+</div>
 
 <br>
 
@@ -9,6 +15,7 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Desc</th>
             <th>Size</th>
             <th>Price</th>
             <th>Quantity</th>
@@ -21,6 +28,7 @@
             <tr>
                 <td><%= product.id %></td>
                 <td><%= product.name %></td>
+                <td><%= product.description%></td>
                 <td><%= product.size %></td>
                 <td><%= product.price %></td>
                 <td><%= product.quantity %></td>

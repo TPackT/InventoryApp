@@ -5,6 +5,7 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Desc</th>
             <th>Size</th>
             <th>Price</th>
             <th>Quantity</th>
@@ -17,6 +18,7 @@
             <div class="list-item">
                 <td><input class="item-attribute" type="text" name="id" value="<%= product.id %>" readonly></td>
                 <td><input class="item-attribute" type="text" name="name" value="<%= product.name %>"></td>
+                <td><input class="item-attribute" type="text" name="desc" value="<%= product.desc %>"></td>
                 <td><input class="item-attribute" type="text" name="size" value="<%= product.size %>"></td>
                 <td><input class="item-attribute" type="text" name="price" value="<%= product.price %>"></td>
                 <td><input class="item-attribute" type="text" name="quantity" value="<%= product.quantity %>"></td>
@@ -43,4 +45,6 @@
         <button id="delete-button" type="submit">Delete</button>
     </form>
 </div>
+
+
 <%- include("_footer") %>
